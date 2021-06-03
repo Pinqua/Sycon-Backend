@@ -1,4 +1,4 @@
-require("dotenv").config()
+require("dotenv").config();
 const mongoose = require("mongoose");
 const Document = require("./models/Document");
 const express = require("express");
@@ -21,19 +21,26 @@ mongoose.connect(`${process.env.MONGO_CONNECTION_URL}`, {
   useCreateIndex: true,
 });
 const connection = mongoose.connection;
-connection.once("open", () => {
+connection
+  .once("open", () => {
     console.log("Database connected...");
-  }).catch((err) => {
+  })
+  .catch((err) => {
     console.log("Connection failed...");
-});
+  });
 
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.get("/", async (req, res) => {
-  const documents = await Document.find();
-  res.json(documents);
+  try {
+    const documents = await Document.find();
+    return res.json(documents);
+  } catch (err) {
+    console.log(err);
+    return res.json(null);
+  }
 });
 
 io.on("connection", (socket) => {
@@ -43,7 +50,11 @@ io.on("connection", (socket) => {
     socket.emit("load-document", document);
 
     socket.on("rename-document", async (name) => {
-      await Document.findByIdAndUpdate(documentId, { name });
+      try {
+        await Document.findByIdAndUpdate(documentId, { name });
+      } catch (err) {
+        console.log(err);
+      }
     });
 
     socket.on("send-changes", (delta) => {
@@ -51,24 +62,35 @@ io.on("connection", (socket) => {
     });
 
     socket.on("save-document", async (data) => {
-      await Document.findByIdAndUpdate(documentId, { data });
+      try {
+        await Document.findByIdAndUpdate(documentId, { data });
+      } catch (err) {
+        console.log(err);
+      }
     });
   });
   socket.on("delete-document", async (id) => {
-    await Document.deleteOne({ _id: id });
+    try {
+      await Document.deleteOne({ _id: id });
+    } catch (err) {
+      console.log(err);
+    }
   });
 });
 
 async function findOrCreateDocument(id) {
   if (id == null) return;
-
-  const document = await Document.findById(id);
-  if (document) return document;
-  return await Document.create({
-    _id: id,
-    name: `Doc-${id}`,
-    data: defaultValue,
-  });
+  try {
+    const document = await Document.findById(id);
+    if (document) return document;
+    return await Document.create({
+      _id: id,
+      name: `Doc-${id}`,
+      data: defaultValue,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 server.listen(PORT, function (err) {
