@@ -14,12 +14,27 @@ const io = require("socket.io")(server, {
 const PORT = process.env.PORT || 9000;
 const defaultValue = "";
 
-mongoose.connect(`${process.env.MONGO_CONNECTION_URL}`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true,
-});
+mongoose
+  .connect(
+    "mongodb+srv://PiyushSati:kutWYSYsHnF4jWio@cluster0.m0aq8.mongodb.net/Sycon?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+    }
+  )
+  .catch((error) => handleError(error));
+
+const connection = mongoose.connection;
+
+connection
+  .once("open", () => {
+    console.log("Database connected...");
+  })
+  .catch((err) => {
+    console.log("Connection failed...");
+  });
 
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
