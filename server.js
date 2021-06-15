@@ -15,15 +15,12 @@ const PORT = process.env.PORT || 9000;
 const defaultValue = "";
 
 mongoose
-  .connect(
-    "mongodb+srv://PiyushSati:kutWYSYsHnF4jWio@cluster0.m0aq8.mongodb.net/Sycon?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-      useCreateIndex: true,
-    }
-  )
+  .connect(`${process.env.MONGO_CONNECTION_URL}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+  })
   .catch((error) => handleError(error));
 
 const connection = mongoose.connection;
