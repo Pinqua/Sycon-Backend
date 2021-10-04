@@ -7,12 +7,12 @@ Online word processor with real time collaboration build using react.js and node
 
  - [Frontend Code](https://github.com/Pinqua/Sycon-Frontend)
  
-![Logo](https://sycon-piyush-sati.netlify.app/favicons/apple-touch-icon.png)
+![Logo](https://sycon.vercel.app/favicons/apple-touch-icon.png)
 
     
 ## Demo
 
-https://sycon-piyush-sati.netlify.app
+https://sycon.vercel.app
   
 ## Screenshots
 
