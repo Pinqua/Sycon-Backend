@@ -2,7 +2,7 @@
 
 # Sycon - Backend
 
-Online Text editor with real time collaboration built using React.js and Node.js
+Online text editor with real time collaboration built using React.js and Node.js
 
 
  - [Frontend Code](https://github.com/Pinqua/Sycon-Frontend)
