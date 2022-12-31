@@ -66,7 +66,7 @@ Install dependencies
 Create a **.env** file inside project directory with fields given below.
 
 ```
-MONGO_CONNECTION_URL=
+  MONGO_CONNECTION_URL=
 ```
 
 Start the server
