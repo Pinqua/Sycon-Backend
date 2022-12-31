@@ -65,7 +65,7 @@ Install dependencies
 
 Create a **.env** file inside project directory with fields given below.
 
-```
+```bash
   MONGO_CONNECTION_URL=
 ```
 
